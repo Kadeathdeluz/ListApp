@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ListApp</string>
+    <string name="floating_action_button">Floating Action Button</string>
+    <string name="edit_button">edit button</string>
 </resources>
