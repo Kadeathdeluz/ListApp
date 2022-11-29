@@ -26,6 +26,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/floating_action_button"
         android:src="@android:drawable/ic_input_add"
+        android:backgroundTint="#8BC34A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

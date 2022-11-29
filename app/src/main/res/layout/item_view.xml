@@ -30,7 +30,7 @@
             android:layout_marginHorizontal="8dp"
             android:contentDescription="@string/edit_button"
             android:src="@android:drawable/ic_menu_edit"
-            app:backgroundTint="#8BC34A" />
+            app:backgroundTint="@color/blue" />
 
         <ImageButton
             android:id="@+id/delete_button"
