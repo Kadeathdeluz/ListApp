@@ -2,4 +2,6 @@
     <string name="app_name">ListApp</string>
     <string name="floating_action_button">Floating Action Button</string>
     <string name="edit_button">edit button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
