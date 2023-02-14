@@ -19,7 +19,7 @@ class ListAdapter(private val itemList: List<Item>) : RecyclerView.Adapter<ListA
         with(holder){
             with(itemList[position]){
                 binding.checkbox.isChecked = this.checked
-                binding.itemName.text = this.name
+                binding.tvItemName.text = this.name
             }
         }
     }
