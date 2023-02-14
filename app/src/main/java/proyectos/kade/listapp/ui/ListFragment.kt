@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import proyectos.kade.listapp.R
 import proyectos.kade.listapp.adapter.ListAdapter
 import proyectos.kade.listapp.data.DataSource
 import proyectos.kade.listapp.databinding.ListViewBinding
@@ -46,7 +47,8 @@ class ListFragment : Fragment() {
     }
 
     private fun addItem() {
-        Toast.makeText(requireContext(), itemList[3].toString(), Toast.LENGTH_SHORT ).show()
+        val action = ListFragmentDirections.actionListFragmentToDetailFragment(name = "New Item", photo = R.drawable.cake, description = "Type a short description...")
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
