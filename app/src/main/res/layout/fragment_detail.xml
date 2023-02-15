@@ -30,7 +30,7 @@
         android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@id/iv_photo"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

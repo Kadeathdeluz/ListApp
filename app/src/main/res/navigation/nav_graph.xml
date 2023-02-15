@@ -8,36 +8,36 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="proyectos.kade.listapp.ui.ListFragment"
-        android:label="ListFragment" >
+        android:label="Grocery List">
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
         <argument
             android:name="name"
-            app:argType="string"
-            android:defaultValue="name" />
+            android:defaultValue="name"
+            app:argType="string" />
         <argument
             android:name="description"
-            app:argType="string"
-            android:defaultValue="null" />
+            android:defaultValue="null"
+            app:argType="string" />
         <argument
             android:name="photo"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="proyectos.kade.listapp.ui.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        android:label="New Item"
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="name"
-            app:argType="string"
-            android:defaultValue="name" />
+            android:defaultValue="name"
+            app:argType="string" />
         <argument
             android:name="description"
-            app:argType="string"
-            android:defaultValue="null" />
+            android:defaultValue="null"
+            app:argType="string" />
         <argument
             android:name="photo"
             app:argType="integer" />
