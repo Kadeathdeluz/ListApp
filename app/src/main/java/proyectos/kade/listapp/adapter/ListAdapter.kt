@@ -29,7 +29,8 @@ class ListAdapter(private val itemList: List<Item>) :
                     val action = ListFragmentDirections.actionListFragmentToDetailFragment(
                         name = name,
                         photo = this.photo ?: R.drawable.corn,
-                        description = this.description.toString()
+                        description = this.description.toString(),
+                        title = name
                     )
                     holder.binding.root.findNavController().navigate(action)
                 }

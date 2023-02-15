@@ -49,7 +49,8 @@ class ListFragment : Fragment() {
         val action = ListFragmentDirections.actionListFragmentToDetailFragment(
             name = "New Item",
             photo = R.mipmap.ic_launcher_round,
-            description = "Type a short description..."
+            description = "Type a short description...",
+            title = "Add Item"
         )
         findNavController().navigate(action)
     }

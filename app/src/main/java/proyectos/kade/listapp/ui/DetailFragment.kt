@@ -36,7 +36,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Example 1"
+        (activity as AppCompatActivity).supportActionBar?.title = args.title
         photo.setImageResource(args.photo)
         name.text = args.name
         description.text = args.description

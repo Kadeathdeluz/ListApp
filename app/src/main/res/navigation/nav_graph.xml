@@ -18,12 +18,15 @@
             app:argType="string" />
         <argument
             android:name="description"
-            android:defaultValue="null"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="photo"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -41,5 +44,8 @@
         <argument
             android:name="photo"
             app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>
