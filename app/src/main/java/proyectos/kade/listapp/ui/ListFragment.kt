@@ -30,7 +30,6 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = ListViewBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -47,7 +46,11 @@ class ListFragment : Fragment() {
     }
 
     private fun addItem() {
-        val action = ListFragmentDirections.actionListFragmentToDetailFragment(name = "New Item", photo = R.drawable.cake, description = "Type a short description...")
+        val action = ListFragmentDirections.actionListFragmentToDetailFragment(
+            name = "New Item",
+            photo = R.mipmap.ic_launcher_round,
+            description = "Type a short description..."
+        )
         findNavController().navigate(action)
     }
 

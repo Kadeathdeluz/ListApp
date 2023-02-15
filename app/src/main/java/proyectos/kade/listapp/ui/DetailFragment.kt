@@ -1,12 +1,12 @@
 package proyectos.kade.listapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import proyectos.kade.listapp.databinding.FragmentDetailBinding
 
@@ -16,7 +16,7 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
-    val args: ListFragmentArgs by navArgs()
+    private val args: ListFragmentArgs by navArgs()
 
     private lateinit var photo: ImageView
     private lateinit var name: TextView

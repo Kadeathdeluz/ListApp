@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:checked="true" />
 
     <TextView
         android:id="@+id/tv_item_name"
@@ -22,7 +23,10 @@
         app:layout_constraintRight_toLeftOf="@id/linearlayout_buttons"
         app:layout_constraintStart_toEndOf="@id/checkbox"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="List Name Sample" />
+        tools:text="Item name"
+        android:maxLength="24"
+        android:textStyle="bold"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/linearlayout_buttons"
@@ -39,7 +43,9 @@
             android:layout_marginHorizontal="8dp"
             android:contentDescription="@string/edit_button"
             android:src="@android:drawable/ic_menu_edit"
-            app:backgroundTint="@color/blue" />
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            app:tint="@color/blue" />
 
         <ImageButton
             android:id="@+id/delete_button"
@@ -48,6 +54,8 @@
             android:layout_marginHorizontal="8dp"
             android:contentDescription="delete button"
             android:src="@android:drawable/ic_menu_delete"
-            app:backgroundTint="#C52E23" />
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            app:tint="@color/red" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
