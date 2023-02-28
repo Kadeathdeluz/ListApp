@@ -9,20 +9,24 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.navArgs
 import proyectos.kade.listapp.databinding.FragmentDetailBinding
+import proyectos.kade.listapp.viewmodel.ItemDetailViewModel
 
 
 class DetailFragment : Fragment() {
+    private val viewModel: ItemDetailViewModel by viewModels()
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private lateinit var photo: ImageView
     private lateinit var name: TextView
     private lateinit var description: TextView
+    private lateinit var photo: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

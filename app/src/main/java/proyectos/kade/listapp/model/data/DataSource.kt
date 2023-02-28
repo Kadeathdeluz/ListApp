@@ -1,4 +1,4 @@
-package proyectos.kade.listapp.data
+package proyectos.kade.listapp.model.data
 
 import proyectos.kade.listapp.R
 import proyectos.kade.listapp.model.Item

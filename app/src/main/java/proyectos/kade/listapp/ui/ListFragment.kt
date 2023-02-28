@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import proyectos.kade.listapp.R
 import proyectos.kade.listapp.adapter.ListAdapter
-import proyectos.kade.listapp.data.DataSource
+import proyectos.kade.listapp.model.data.DataSource
 import proyectos.kade.listapp.databinding.ListViewBinding
 import proyectos.kade.listapp.model.Item
+import proyectos.kade.listapp.viewmodel.ListViewModel
 
 class ListFragment : Fragment() {
+    private val viewModel: ListViewModel by viewModels()
 
     private var _binding: ListViewBinding? = null
     private val binding get() = _binding!!
