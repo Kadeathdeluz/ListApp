@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -52,10 +53,13 @@ class DetailFragment : Fragment() {
 
     private fun cancel() {
         Toast.makeText(context, "Back...", Toast.LENGTH_SHORT).show()
+        requireActivity().onBackPressed()
+
     }
 
     private fun saveItem() {
         Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show()
+        requireActivity().onBackPressed()
     }
 
     override fun onDestroy() {
