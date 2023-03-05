@@ -39,6 +39,16 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("name")?.observe(viewLifecycleOwner) {
+            addItem(Item(
+                id = 0,
+                checked = false,
+                name = findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("name") ?: "NoName",
+                description = findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("description") ?: "No description...",
+                photo = findNavController().currentBackStackEntry?.savedStateHandle?.get<Int>("photo") ?: R.drawable.ic_launcher_foreground
+
+            ))
+        }
         itemList = viewModel.loadList()
         adapter = ListAdapter(itemList)
         recyclerView = binding.recyclerView
@@ -84,14 +94,14 @@ class ListFragment : Fragment() {
     }
 
     private fun addItem(item: Item) {
-        /*val action = ListFragmentDirections.actionListFragmentToDetailFragment(
+        val action = ListFragmentDirections.actionListFragmentToDetailFragment(
             name = "New Item",
             photo = R.mipmap.ic_launcher_round,
             description = "Type a short description...",
             title = "Add Item"
         )
-        findNavController().navigate(action)*/
-        viewModel.addItem(item)
+        findNavController().navigate(action)
+        //viewModel.addItem(item)
     }
 
     override fun onDestroyView() {
