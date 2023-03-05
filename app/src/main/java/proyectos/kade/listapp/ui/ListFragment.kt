@@ -46,21 +46,52 @@ class ListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        binding.fabAddList.setOnClickListener { addItem() }
+        binding.fabAddList.setOnClickListener {
+            val random = (1..10).random()
+            addItem(
+                Item(
+                    id = random,
+                    checked = false,
+                    name = randomName(),
+                    description = "Generated item with id: $random.",
+                    photo = randomPhoto()
+                )
+            )
+        }
         viewModel.itemsList.observe(viewLifecycleOwner) { list ->
             itemList = list
+            binding.recyclerView.adapter = ListAdapter(itemList)
         }
 
     }
 
-    private fun addItem() {
-        val action = ListFragmentDirections.actionListFragmentToDetailFragment(
+    private fun randomName(): String {
+        return when ((1..3).random()) {
+            1 -> "Coco"
+            2 -> "Cherry"
+            3 -> "Avocado"
+            else -> "None"
+        }
+    }
+
+    private fun randomPhoto(): Int {
+        return when ((1..3).random()) {
+            1 -> R.drawable.cake
+            2 -> R.drawable.candy
+            3 -> R.drawable.corn
+            else -> R.drawable.ic_launcher_foreground
+        }
+    }
+
+    private fun addItem(item: Item) {
+        /*val action = ListFragmentDirections.actionListFragmentToDetailFragment(
             name = "New Item",
             photo = R.mipmap.ic_launcher_round,
             description = "Type a short description...",
             title = "Add Item"
         )
-        findNavController().navigate(action)
+        findNavController().navigate(action)*/
+        viewModel.addItem(item)
     }
 
     override fun onDestroyView() {

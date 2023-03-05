@@ -14,11 +14,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.navArgs
 import proyectos.kade.listapp.databinding.FragmentDetailBinding
+import proyectos.kade.listapp.model.Item
 import proyectos.kade.listapp.viewmodel.ItemDetailViewModel
+import proyectos.kade.listapp.viewmodel.ListViewModel
 
 
 class DetailFragment : Fragment() {
-    private val viewModel: ItemDetailViewModel by viewModels()
+    private val viewModel: ListViewModel by viewModels()
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -59,6 +61,16 @@ class DetailFragment : Fragment() {
 
     private fun saveItem() {
         Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show()
+        /*val item = Item(
+            name = binding.tvItemName.text.toString(),
+            description = binding.tvDescription.text.toString(),
+            checked = false,
+            id = 0,
+            photo = binding.ivPhoto.id
+        )
+        viewModel.addItem(item)*/
+
+        //Toast.makeText(context, "${viewModel.itemsList.value}", Toast.LENGTH_LONG).show()
         requireActivity().onBackPressed()
     }
 
