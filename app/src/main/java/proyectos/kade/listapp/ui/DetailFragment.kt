@@ -1,30 +1,25 @@
 package proyectos.kade.listapp.ui
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import proyectos.kade.listapp.R
 import proyectos.kade.listapp.databinding.FragmentDetailBinding
 import proyectos.kade.listapp.model.Item
-import proyectos.kade.listapp.viewmodel.ItemDetailViewModel
 import proyectos.kade.listapp.viewmodel.ListViewModel
 
 
 class DetailFragment : Fragment() {
-    private val viewModel: ListViewModel by viewModels()
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -58,28 +53,27 @@ class DetailFragment : Fragment() {
     }
 
     private fun cancel() {
-        Toast.makeText(context, "Back...", Toast.LENGTH_SHORT).show()
-        requireActivity().onBackPressed()
+        //Toast.makeText(context, "Back...", Toast.LENGTH_SHORT).show()
+        val navController = findNavController()
+        navController.popBackStack()
+        //requireActivity().onBackPressed()
 
     }
 
     private fun saveItem() {
-        //Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show()
-        /*val item = Item(
-            name = binding.tvItemName.text.toString(),
-            description = binding.tvDescription.text.toString(),
-            checked = false,
-            id = 0,
-            photo = binding.ivPhoto.id
-        )
-        viewModel.addItem(item)*/
-        //Toast.makeText(context, "${viewModel.itemsList.value}", Toast.LENGTH_LONG).show()
         val navController = findNavController()
-        navController.previousBackStackEntry?.savedStateHandle?.set("name", "${binding.tvItemName.text}")
-        navController.previousBackStackEntry?.savedStateHandle?.set("description", "${binding.tvDescription.text}")
-        navController.previousBackStackEntry?.savedStateHandle?.set("photo", binding.ivPhoto.id)
-
-        requireActivity().onBackPressed()
+        val item = Item(
+            id = args.id,
+            name = name.text.toString() ,
+            checked = false,
+            description = description.text.toString(),
+            photo = args.photo
+        )
+        navController.previousBackStackEntry?.savedStateHandle?.set("id", item.id)
+        navController.previousBackStackEntry?.savedStateHandle?.set("name", item.name)
+        navController.previousBackStackEntry?.savedStateHandle?.set("description", item.description)
+        navController.previousBackStackEntry?.savedStateHandle?.set("photo", item.photo)
+        navController.popBackStack()
     }
 
     override fun onDestroy() {

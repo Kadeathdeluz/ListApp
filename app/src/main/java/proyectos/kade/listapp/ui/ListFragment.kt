@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import proyectos.kade.listapp.R
 import proyectos.kade.listapp.adapter.ListAdapter
-import proyectos.kade.listapp.model.data.DataSource
 import proyectos.kade.listapp.databinding.ListViewBinding
 import proyectos.kade.listapp.model.Item
 import proyectos.kade.listapp.viewmodel.ListViewModel
@@ -39,22 +37,26 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("name")?.observe(viewLifecycleOwner) {
-            addItem(Item(
-                id = 0,
-                checked = false,
-                name = findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("name") ?: "NoName",
-                description = findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("description") ?: "No description...",
-                photo = findNavController().currentBackStackEntry?.savedStateHandle?.get<Int>("photo") ?: R.drawable.ic_launcher_foreground
-
-            ))
-        }
         itemList = viewModel.loadList()
+        viewModel.updateList(itemList)
         adapter = ListAdapter(itemList)
         recyclerView = binding.recyclerView
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+        val navController = findNavController()
+        val liveName =
+            navController.currentBackStackEntry?.savedStateHandle?.getLiveData<String>("name")
+        liveName?.observe(viewLifecycleOwner) { newName ->
+            val newItem = Item(
+                id = navController.currentBackStackEntry?.savedStateHandle?.get("id") ?: 0, //Change id to autoincremental
+                name = newName,
+                description = navController.currentBackStackEntry?.savedStateHandle?.get("description"),
+                checked = false,
+                photo = navController.currentBackStackEntry?.savedStateHandle?.get("photo")
+            )
+            viewModel.addItem(newItem)
+        }
 
         binding.fabAddList.setOnClickListener {
             val random = (1..10).random()
@@ -95,13 +97,17 @@ class ListFragment : Fragment() {
 
     private fun addItem(item: Item) {
         val action = ListFragmentDirections.actionListFragmentToDetailFragment(
-            name = "New Item",
-            photo = R.mipmap.ic_launcher_round,
-            description = "Type a short description...",
+            id = item.id,
+            name = item.name,
+            photo = item.photo ?: R.drawable.ic_launcher_foreground,
+            description = item.description ?: "Type a short description...",
             title = "Add Item"
         )
         findNavController().navigate(action)
         //viewModel.addItem(item)
+    }
+    fun delete(item: Item) {
+        viewModel.delete(item)
     }
 
     override fun onDestroyView() {
