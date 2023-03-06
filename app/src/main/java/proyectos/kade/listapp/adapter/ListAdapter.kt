@@ -27,6 +27,9 @@ class ListAdapter(private val itemList: List<Item>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(itemList[position]) {
+                binding.checkbox.setOnClickListener {
+                    this.checked = binding.checkbox.isChecked
+                }
                 binding.checkbox.isChecked = this.checked
                 binding.tvItemName.text = this.name
                 binding.editButton.setOnClickListener {
@@ -35,7 +38,8 @@ class ListAdapter(private val itemList: List<Item>) :
                         name = name,
                         photo = this.photo ?: R.drawable.corn,
                         description = this.description.toString(),
-                        title = name
+                        title = name,
+                        checked = binding.checkbox.isChecked
                     )
                     holder.binding.root.findNavController().navigate(action)
                 }

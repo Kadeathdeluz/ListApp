@@ -52,20 +52,20 @@ class ListFragment : Fragment() {
                 id = navController.currentBackStackEntry?.savedStateHandle?.get("id") ?: 0, //Change id to autoincremental
                 name = newName,
                 description = navController.currentBackStackEntry?.savedStateHandle?.get("description"),
-                checked = false,
+                checked = navController.currentBackStackEntry?.savedStateHandle?.get("checked") ?: true,
                 photo = navController.currentBackStackEntry?.savedStateHandle?.get("photo")
             )
             viewModel.addItem(newItem)
         }
 
         binding.fabAddList.setOnClickListener {
-            val random = (1..10).random()
+            var id = ++viewModel.id
             addItem(
                 Item(
-                    id = random,
-                    checked = false,
+                    id = id,
+                    checked = randomCheck(),
                     name = randomName(),
-                    description = "Generated item with id: $random.",
+                    description = "Generated item with id: ${id}.",
                     photo = randomPhoto()
                 )
             )
@@ -95,16 +95,20 @@ class ListFragment : Fragment() {
         }
     }
 
+    private fun randomCheck() : Boolean {
+        return (0..1).random() == 1
+    }
+
     private fun addItem(item: Item) {
         val action = ListFragmentDirections.actionListFragmentToDetailFragment(
             id = item.id,
             name = item.name,
             photo = item.photo ?: R.drawable.ic_launcher_foreground,
+            checked = item.checked,
             description = item.description ?: "Type a short description...",
             title = "Add Item"
         )
         findNavController().navigate(action)
-        //viewModel.addItem(item)
     }
     fun delete(item: Item) {
         viewModel.delete(item)

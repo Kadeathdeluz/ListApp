@@ -10,10 +10,15 @@ import proyectos.kade.listapp.model.Item
 class ListViewModel : ViewModel() {
     private val _itemsList = MutableLiveData<List<Item>>()
     val itemsList: LiveData<List<Item>> get() = _itemsList
+    var id : Int
+
     init {
         _itemsList.value = listOf()
+        id = 0
     }
+
     fun loadList(): List<Item> = itemsList.value ?: listOf()
+
     fun updateList(list: List<Item>) {
         if (itemsList.value == null)
             _itemsList.value = listOf()
@@ -23,15 +28,11 @@ class ListViewModel : ViewModel() {
     fun addItem(item: Item) {
         val tempList: MutableList<Item> =
             itemsList.value?.toMutableList() ?: mutableListOf()
-        Log.e("PRE LIST", "${itemsList.value}")
-        if(!tempList.contains(item))
-            tempList.add(item)
-        else {
-            tempList.remove(item)
-            tempList.add(item)
-        }
+        val find = tempList.find{it.id == item.id}
+        if( find != null)
+            tempList[tempList.indexOf(find)] = item
+        else tempList.add(item)
         updateList(tempList)
-        Log.e("POST LIST", "${itemsList.value}")
 
     }
 

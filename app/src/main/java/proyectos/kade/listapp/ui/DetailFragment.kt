@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -26,8 +27,8 @@ class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private lateinit var name: TextView
-    private lateinit var description: TextView
+    private lateinit var name: EditText
+    private lateinit var description: EditText
     private lateinit var photo: ImageView
 
     override fun onCreateView(
@@ -45,8 +46,8 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = args.title
         photo.setImageResource(args.photo)
-        name.text = args.name
-        description.text = args.description
+        name.setText(args.name)
+        description.setText(args.description)
         binding.btnCancel.setOnClickListener { cancel() }
         binding.btnSave.setOnClickListener { saveItem() }
 
@@ -65,7 +66,7 @@ class DetailFragment : Fragment() {
         val item = Item(
             id = args.id,
             name = name.text.toString() ,
-            checked = false,
+            checked = args.checked,
             description = description.text.toString(),
             photo = args.photo
         )
@@ -73,6 +74,7 @@ class DetailFragment : Fragment() {
         navController.previousBackStackEntry?.savedStateHandle?.set("name", item.name)
         navController.previousBackStackEntry?.savedStateHandle?.set("description", item.description)
         navController.previousBackStackEntry?.savedStateHandle?.set("photo", item.photo)
+        navController.previousBackStackEntry?.savedStateHandle?.set("checked", item.checked)
         navController.popBackStack()
     }
 
