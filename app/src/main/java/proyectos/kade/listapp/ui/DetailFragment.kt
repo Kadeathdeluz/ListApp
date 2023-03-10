@@ -13,6 +13,7 @@ import androidx.fragment.app.findFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import proyectos.kade.listapp.R
 import proyectos.kade.listapp.databinding.FragmentDetailBinding
 import proyectos.kade.listapp.model.Item
 
@@ -52,7 +53,6 @@ class DetailFragment : Fragment() {
 
     private fun cancel() {
         val navController = findNavController()
-        navController.previousBackStackEntry?.savedStateHandle?.set("checked", args.checked)
         navController.popBackStack()
         //requireActivity().onBackPressed()
 

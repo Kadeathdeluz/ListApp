@@ -26,9 +26,9 @@ class ListAdapter(private val itemList: List<Item>) :
         with(holder) {
             //To improve readability
             val checkBox = binding.checkbox
-            val itemNameET = binding.tiEtItemName
-            val editBtn = binding.editButton
-            val deleteBtn = binding.deleteButton
+            val itemNameET = binding.tvItemName
+            val editBtn = binding.btnEdit
+            val deleteBtn = binding.btnDelete
 
             with(itemList[position]) {
 

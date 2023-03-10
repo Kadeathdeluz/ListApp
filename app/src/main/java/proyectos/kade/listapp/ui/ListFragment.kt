@@ -53,27 +53,29 @@ class ListFragment : Fragment() {
         val navController = findNavController()
 
         with(navController.currentBackStackEntry?.savedStateHandle) {
-            this?.getLiveData<String>("name")
-                ?.observe(viewLifecycleOwner) { newName ->
+            this?.getLiveData<Int>("id")
+                ?.observe(viewLifecycleOwner) { newID ->
                     val newItem = Item(
-                        id = this["id"] ?: 0,
-                        name = newName,
-                        description = this["description"] ?: "",
+                        id = newID ?: 0,
+                        name = this["name"] ?: "noName",
+                        description = this["description"] ?: "noDescription",
                         checked = this["checked"] ?: true,
                         photo = this["photo"] ?: R.drawable.ic_launcher_foreground
                     )
+                    //navController.clearBackStack("name")
                     viewModel.addItem(newItem)
                 }
         }
 
         binding.fabAddList.setOnClickListener {
+            val newId = viewModel.newId()
             addItem(
                 Item(
-                    id = viewModel.newId(),
-                    checked = randomCheck(),
-                    name = randomName(),
-                    description = "Generated item ",
-                    photo = randomPhoto()
+                    id = newId,
+                    checked = false,
+                    name = "Name$newId",
+                    description = "Generated item with id: $newId",
+                    photo = R.drawable.cake
                 )
             )
         }
@@ -83,28 +85,6 @@ class ListFragment : Fragment() {
             binding.recyclerView.adapter = ListAdapter(itemList)
         }
 
-    }
-
-    private fun randomName(): String {
-        return when ((1..3).random()) {
-            1 -> "Coco"
-            2 -> "Cherry"
-            3 -> "Avocado"
-            else -> "None"
-        }
-    }
-
-    private fun randomPhoto(): Int {
-        return when ((1..3).random()) {
-            1 -> R.drawable.cake
-            2 -> R.drawable.candy
-            3 -> R.drawable.corn
-            else -> R.drawable.ic_launcher_foreground
-        }
-    }
-
-    private fun randomCheck(): Boolean {
-        return (0..1).random() == 1
     }
 
     private fun addItem(item: Item) {
@@ -117,7 +97,6 @@ class ListFragment : Fragment() {
                 description = description,
                 title = "Add Item"
             )
-
             findNavController().navigate(action)
         }
     }

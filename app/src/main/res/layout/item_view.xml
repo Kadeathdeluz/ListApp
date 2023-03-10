@@ -16,7 +16,7 @@
         tools:checked="true" />
 
     <TextView
-        android:id="@+id/ti_et_item_name"
+        android:id="@+id/tv_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLength="24"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/edit_button"
+            android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -48,7 +48,7 @@
             app:tint="@color/blue" />
 
         <ImageButton
-            android:id="@+id/delete_button"
+            android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

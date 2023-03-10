@@ -3,6 +3,7 @@ package proyectos.kade.listapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import proyectos.kade.listapp.model.Item
 
 class ListViewModel : ViewModel() {
@@ -21,6 +22,7 @@ class ListViewModel : ViewModel() {
     }
 
     fun addItem(item: Item) {
+        if(item.id == 0) return
         val tempList: MutableList<Item> =
             itemsList.value?.toMutableList() ?: mutableListOf()
         val find: Item? = tempList.find{it.id == item.id}
@@ -39,4 +41,14 @@ class ListViewModel : ViewModel() {
     }
 
     fun newId(): Int = ++counter
+}
+
+class ListViewModelFactory() : ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(ListViewModel::class.java)){
+            @Suppress("UNCHECKED_CAST")
+            return ListViewModel() as T
+        }
+        throw java.lang.IllegalArgumentException("Unknown ViewModel class")
+    }
 }
