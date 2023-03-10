@@ -59,7 +59,7 @@ class ListFragment : Fragment() {
                         id = this["id"] ?: 0,
                         name = newName,
                         description = this["description"] ?: "",
-                        checked = this["checked"] ?: false,
+                        checked = this["checked"] ?: true,
                         photo = this["photo"] ?: R.drawable.ic_launcher_foreground
                     )
                     viewModel.addItem(newItem)
