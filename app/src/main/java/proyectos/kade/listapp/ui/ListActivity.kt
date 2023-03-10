@@ -16,7 +16,7 @@ class ListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Force Light Mode on UI
+        //Force Light Mode on UI; note: change night mode colors
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)

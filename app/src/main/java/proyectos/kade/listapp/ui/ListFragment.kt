@@ -37,39 +37,47 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemList = viewModel.loadList()
+
+        itemList = viewModel.loadList() //First time just get an empty list
         viewModel.updateList(itemList)
         adapter = ListAdapter(itemList)
+
         recyclerView = binding.recyclerView
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+
+        with(recyclerView) {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            this.adapter = adapter
+        }
+
         val navController = findNavController()
-        val liveName =
-            navController.currentBackStackEntry?.savedStateHandle?.getLiveData<String>("name")
-        liveName?.observe(viewLifecycleOwner) { newName ->
-            val newItem = Item(
-                id = navController.currentBackStackEntry?.savedStateHandle?.get("id") ?: 0, //Change id to autoincremental
-                name = newName,
-                description = navController.currentBackStackEntry?.savedStateHandle?.get("description"),
-                checked = navController.currentBackStackEntry?.savedStateHandle?.get("checked") ?: true,
-                photo = navController.currentBackStackEntry?.savedStateHandle?.get("photo")
-            )
-            viewModel.addItem(newItem)
+
+        with(navController.currentBackStackEntry?.savedStateHandle) {
+            this?.getLiveData<String>("name")
+                ?.observe(viewLifecycleOwner) { newName ->
+                    val newItem = Item(
+                        id = this["id"] ?: 0,
+                        name = newName,
+                        description = this["description"] ?: "",
+                        checked = this["checked"] ?: false,
+                        photo = this["photo"] ?: R.drawable.ic_launcher_foreground
+                    )
+                    viewModel.addItem(newItem)
+                }
         }
 
         binding.fabAddList.setOnClickListener {
-            var id = ++viewModel.id
             addItem(
                 Item(
-                    id = id,
+                    id = viewModel.newId(),
                     checked = randomCheck(),
                     name = randomName(),
-                    description = "Generated item with id: ${id}.",
+                    description = "Generated item ",
                     photo = randomPhoto()
                 )
             )
         }
+
         viewModel.itemsList.observe(viewLifecycleOwner) { list ->
             itemList = list
             binding.recyclerView.adapter = ListAdapter(itemList)
@@ -95,24 +103,27 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun randomCheck() : Boolean {
+    private fun randomCheck(): Boolean {
         return (0..1).random() == 1
     }
 
     private fun addItem(item: Item) {
-        val action = ListFragmentDirections.actionListFragmentToDetailFragment(
-            id = item.id,
-            name = item.name,
-            photo = item.photo ?: R.drawable.ic_launcher_foreground,
-            checked = item.checked,
-            description = item.description ?: "Type a short description...",
-            title = "Add Item"
-        )
-        findNavController().navigate(action)
+        with(item) {
+            val action = ListFragmentDirections.actionListFragmentToDetailFragment(
+                id = id,
+                name = name,
+                photo = photo,
+                checked = checked,
+                description = description,
+                title = "Add Item"
+            )
+
+            findNavController().navigate(action)
+        }
     }
-    fun delete(item: Item) {
+
+    fun delete(item: Item) =
         viewModel.delete(item)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

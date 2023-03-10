@@ -2,11 +2,9 @@ package proyectos.kade.listapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import proyectos.kade.listapp.R
 import proyectos.kade.listapp.databinding.ItemViewBinding
 import proyectos.kade.listapp.model.Item
 import proyectos.kade.listapp.ui.ListFragment
@@ -26,24 +24,33 @@ class ListAdapter(private val itemList: List<Item>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
+            //To improve readability
+            val checkBox = binding.checkbox
+            val itemNameET = binding.tiEtItemName
+            val editBtn = binding.editButton
+            val deleteBtn = binding.deleteButton
+
             with(itemList[position]) {
-                binding.checkbox.setOnClickListener {
-                    this.checked = binding.checkbox.isChecked
+
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+                    this.checked = isChecked
                 }
-                binding.checkbox.isChecked = this.checked
-                binding.tvItemName.text = this.name
-                binding.editButton.setOnClickListener {
+                checkBox.isChecked = this.checked
+                itemNameET.text = this.name
+
+                editBtn.setOnClickListener {
                     val action = ListFragmentDirections.actionListFragmentToDetailFragment(
-                        id = id,
-                        name = name,
-                        photo = this.photo ?: R.drawable.corn,
-                        description = this.description.toString(),
-                        title = name,
-                        checked = binding.checkbox.isChecked
+                        id = this.id,
+                        name = this.name,
+                        photo = this.photo,
+                        description = this.description,
+                        title = this.name,
+                        checked = this.checked
                     )
                     holder.binding.root.findNavController().navigate(action)
                 }
-                binding.deleteButton.setOnClickListener {
+
+                deleteBtn.setOnClickListener {
                     it.findFragment<ListFragment>().delete(itemList[position])
                 }
             }

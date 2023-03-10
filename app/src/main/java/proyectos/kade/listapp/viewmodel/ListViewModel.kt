@@ -1,21 +1,16 @@
 package proyectos.kade.listapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import proyectos.kade.listapp.model.Item
 
 class ListViewModel : ViewModel() {
     private val _itemsList = MutableLiveData<List<Item>>()
-    val itemsList: LiveData<List<Item>> get() = _itemsList
-    var id : Int
+    val itemsList: LiveData<List<Item>>
+        get() = _itemsList
 
-    init {
-        _itemsList.value = listOf()
-        id = 0
-    }
+    private var counter: Int = 0
 
     fun loadList(): List<Item> = itemsList.value ?: listOf()
 
@@ -28,7 +23,7 @@ class ListViewModel : ViewModel() {
     fun addItem(item: Item) {
         val tempList: MutableList<Item> =
             itemsList.value?.toMutableList() ?: mutableListOf()
-        val find = tempList.find{it.id == item.id}
+        val find: Item? = tempList.find{it.id == item.id}
         if( find != null)
             tempList[tempList.indexOf(find)] = item
         else tempList.add(item)
@@ -38,7 +33,10 @@ class ListViewModel : ViewModel() {
 
     fun delete(item: Item) {
         val tempList: MutableList<Item> = itemsList.value?.toMutableList() ?: mutableListOf()
-        tempList.remove(item)
-        _itemsList.value = tempList.toList()
+        if(tempList.isNotEmpty())
+            tempList.remove(item)
+        updateList(tempList.toList())
     }
+
+    fun newId(): Int = ++counter
 }

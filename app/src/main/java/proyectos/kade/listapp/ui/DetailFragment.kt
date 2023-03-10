@@ -1,29 +1,26 @@
 package proyectos.kade.listapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager.findFragment
+import androidx.fragment.app.findFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import proyectos.kade.listapp.R
 import proyectos.kade.listapp.databinding.FragmentDetailBinding
 import proyectos.kade.listapp.model.Item
-import proyectos.kade.listapp.viewmodel.ListViewModel
-
 
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     private val args: DetailFragmentArgs by navArgs()
 
@@ -37,8 +34,8 @@ class DetailFragment : Fragment() {
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         photo = binding.ivPhoto
-        name = binding.tvItemName
-        description = binding.tvDescription
+        name = binding.tiEtItemName
+        description = binding.tiEtDescription
         return binding.root
     }
 
@@ -54,8 +51,8 @@ class DetailFragment : Fragment() {
     }
 
     private fun cancel() {
-        //Toast.makeText(context, "Back...", Toast.LENGTH_SHORT).show()
         val navController = findNavController()
+        navController.previousBackStackEntry?.savedStateHandle?.set("checked", args.checked)
         navController.popBackStack()
         //requireActivity().onBackPressed()
 
@@ -65,16 +62,19 @@ class DetailFragment : Fragment() {
         val navController = findNavController()
         val item = Item(
             id = args.id,
-            name = name.text.toString() ,
+            name = name.text.toString(),
             checked = args.checked,
             description = description.text.toString(),
             photo = args.photo
         )
-        navController.previousBackStackEntry?.savedStateHandle?.set("id", item.id)
-        navController.previousBackStackEntry?.savedStateHandle?.set("name", item.name)
-        navController.previousBackStackEntry?.savedStateHandle?.set("description", item.description)
-        navController.previousBackStackEntry?.savedStateHandle?.set("photo", item.photo)
-        navController.previousBackStackEntry?.savedStateHandle?.set("checked", item.checked)
+        with(navController.previousBackStackEntry?.savedStateHandle) {
+            this?.set("id", item.id)
+            this?.set("name", item.name)
+            this?.set("description", item.description)
+            this?.set("photo", item.photo)
+            this?.set("checked", item.checked)
+        }
+        //requireActivity().onBackPressed()
         navController.popBackStack()
     }
 
