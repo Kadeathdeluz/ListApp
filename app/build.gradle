@@ -2,16 +2,17 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.devtools.ksp' version "1.8.10-1.0.9"
 }
 
 android {
     namespace 'proyectos.kade.listapp'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "proyectos.kade.listapp"
         minSdk 19
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -34,13 +35,14 @@ android {
 
     //ViewBinding
     buildFeatures {
-        viewBinding {
-            enabled = true
-        }
+        viewBinding true
     }
 }
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
+    def room_version = "2.5.0"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -55,6 +57,11 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
     //LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    //Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'

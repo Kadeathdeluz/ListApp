@@ -15,7 +15,12 @@ class ListAdapter(private val itemList: List<Item>) :
     RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
 
-    class ViewHolder(val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        val checkBox = binding.checkbox
+        val itemNameET = binding.tvItemName
+        val editBtn = binding.btnEdit
+        val deleteBtn = binding.btnDelete
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,35 +29,30 @@ class ListAdapter(private val itemList: List<Item>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            //To improve readability
-            val checkBox = binding.checkbox
-            val itemNameET = binding.tvItemName
-            val editBtn = binding.btnEdit
-            val deleteBtn = binding.btnDelete
+            with(itemList[position]) { val item = this //To improve readability
+                //UI components
+                itemNameET.text = item.name
+                checkBox.isChecked = item.checked
 
-            with(itemList[position]) {
-
-                checkBox.setOnCheckedChangeListener { _, isChecked ->
-                    this.checked = isChecked
-                }
-                checkBox.isChecked = this.checked
-                itemNameET.text = this.name
-
+                //UI components listeners
                 editBtn.setOnClickListener {
                     val action = ListFragmentDirections.actionListFragmentToDetailFragment(
-                        id = this.id,
-                        name = this.name,
-                        photo = this.photo,
-                        description = this.description,
-                        title = this.name,
-                        checked = this.checked
+                        id = item.id,
+                        name = item.name,
+                        photo = item.photo,
+                        description = item.description,
+                        title = item.name,
+                        checked = item.checked
                     )
-                    holder.binding.root.findNavController().navigate(action)
+                    binding.root.findNavController().navigate(action)
+                }
+                deleteBtn.setOnClickListener { currentView ->
+                    currentView.findFragment<ListFragment>().delete(item)
+                }
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+                    item.checked = isChecked
                 }
 
-                deleteBtn.setOnClickListener {
-                    it.findFragment<ListFragment>().delete(itemList[position])
-                }
             }
         }
     }

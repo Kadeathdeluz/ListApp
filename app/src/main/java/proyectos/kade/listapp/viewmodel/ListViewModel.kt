@@ -11,36 +11,23 @@ class ListViewModel : ViewModel() {
     val itemsList: LiveData<List<Item>>
         get() = _itemsList
 
-    private var counter: Int = 0
 
     fun loadList(): List<Item> = itemsList.value ?: listOf()
 
     fun updateList(list: List<Item>) {
-        if (itemsList.value == null)
-            _itemsList.value = listOf()
-        else _itemsList.value = list
+
     }
 
-    fun addItem(item: Item) {
-        if(item.id == 0) return
-        val tempList: MutableList<Item> =
-            itemsList.value?.toMutableList() ?: mutableListOf()
-        val find: Item? = tempList.find{it.id == item.id}
-        if( find != null)
-            tempList[tempList.indexOf(find)] = item
-        else tempList.add(item)
-        updateList(tempList)
+    fun insert(item: Item) {
+
 
     }
 
     fun delete(item: Item) {
-        val tempList: MutableList<Item> = itemsList.value?.toMutableList() ?: mutableListOf()
-        if(tempList.isNotEmpty())
-            tempList.remove(item)
-        updateList(tempList.toList())
+
     }
 
-    fun newId(): Int = ++counter
+
 }
 
 class ListViewModelFactory() : ViewModelProvider.NewInstanceFactory() {

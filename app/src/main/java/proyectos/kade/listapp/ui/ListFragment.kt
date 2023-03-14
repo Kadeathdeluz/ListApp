@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import proyectos.kade.listapp.R
 import proyectos.kade.listapp.adapter.ListAdapter
 import proyectos.kade.listapp.databinding.ListViewBinding
@@ -25,6 +26,7 @@ class ListFragment : Fragment() {
     private lateinit var itemList: List<Item>
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var addFAB: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,13 +39,13 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        itemList = viewModel.loadList() //First time just get an empty list
-        viewModel.updateList(itemList)
+        recyclerView = binding.recyclerView
+        addFAB = binding.fabAddList
+        itemList = listOf<Item>()
         adapter = ListAdapter(itemList)
 
-        recyclerView = binding.recyclerView
-
+        //itemList = viewModel.loadList() //First time just get an empty list
+        //viewModel.updateList(itemList)
         with(recyclerView) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -63,13 +65,13 @@ class ListFragment : Fragment() {
                         photo = this["photo"] ?: R.drawable.ic_launcher_foreground
                     )
                     //navController.clearBackStack("name")
-                    viewModel.addItem(newItem)
+                    viewModel.insert(newItem)
                 }
         }
 
-        binding.fabAddList.setOnClickListener {
-            val newId = viewModel.newId()
-            addItem(
+        addFAB.setOnClickListener {
+            val newId = (0..10).random()
+            insert(
                 Item(
                     id = newId,
                     checked = false,
@@ -87,7 +89,7 @@ class ListFragment : Fragment() {
 
     }
 
-    private fun addItem(item: Item) {
+    private fun insert(item: Item) {
         with(item) {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(
                 id = id,
