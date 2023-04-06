@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -50,23 +51,28 @@ class DetailFragment : Fragment() {
         val repository: ItemRepository =
             ItemRepository(ItemRoomDatabase.getDatabase(requireContext()))
         val factory: ListViewModelFactory = ListViewModelFactory(repository)
-        viewModel = ViewModelProvider(this,factory)[ListViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[ListViewModel::class.java]
 
         binding.btnSave.setOnClickListener { currentView ->
-            viewModel.insert(createItem())
-            back()
+            if (nameTIET.text.toString().trim().isEmpty())
+                Toast.makeText(context, "Please, enter a valid name", Toast.LENGTH_SHORT).show()
+            else {
+                viewModel.insert(createItem())
+                back()
+            }
         }
         binding.btnCancel.setOnClickListener { back() }
 
     }
+
     private fun createItem(): Item {
         val item = Item(
-            name = nameTIET.text.toString(),
+            name = nameTIET.text.toString().trim(),
             description = descriptionTIET.text.toString(),
             photo = args.photo,
             checked = args.checked
         )
-        if(args.id != -1) //args.id only will be -1 for new items so the id will autogenerate -> it's the same as passing a null
+        if (args.id != -1) //args.id only will be -1 for new items so the id will autogenerate -> it's the same as passing a null
             item.id = args.id   //If args.id it's not -1 means you are editing and existing item
         return item
     }

@@ -10,9 +10,6 @@ import proyectos.kade.listapp.model.Item
 import proyectos.kade.listapp.repository.ItemRepository
 
 class ListViewModel(private val repository: ItemRepository) : ViewModel() {
-    private val _itemsList = MutableLiveData<List<Item>>()
-    val itemsList: LiveData<List<Item>>
-        get() = _itemsList
 
     fun insert(item: Item) = GlobalScope.launch {
         repository.insert(item)
