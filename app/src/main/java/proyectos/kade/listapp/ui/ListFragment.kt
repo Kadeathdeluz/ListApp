@@ -66,14 +66,13 @@ class ListFragment : Fragment() {
         }
 
         addFAB.setOnClickListener {
-            addItem(
-                Item(
-                    checked = false,
-                    name = "Name",
-                    description = "Generated item ",
-                    photo = R.drawable.cake
-                )
+            val item = Item(
+                checked = false,
+                name = "Name",
+                description = "Generated item ",
+                photo = R.drawable.cake
             )
+            addItem(item)
         }
 
     }
@@ -81,6 +80,7 @@ class ListFragment : Fragment() {
     private fun addItem(item: Item) {
         with(item) {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(
+                id = id ?: -1,
                 name = name,
                 photo = photo,
                 checked = checked,

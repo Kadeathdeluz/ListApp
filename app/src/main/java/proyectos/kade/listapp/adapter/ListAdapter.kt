@@ -37,6 +37,7 @@ class ListAdapter(var itemList: List<Item>) :
                 //UI components listeners
                 editIBTN.setOnClickListener {
                     val action = ListFragmentDirections.actionListFragmentToDetailFragment(
+                        id = item.id!!,
                         name = item.name,
                         photo = item.photo,
                         description = item.description,

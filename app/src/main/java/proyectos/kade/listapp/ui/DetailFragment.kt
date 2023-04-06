@@ -59,12 +59,18 @@ class DetailFragment : Fragment() {
         binding.btnCancel.setOnClickListener { back() }
 
     }
-    private fun createItem(): Item = Item(
+    private fun createItem(): Item {
+        val item = Item(
             name = nameTIET.text.toString(),
             description = descriptionTIET.text.toString(),
             photo = args.photo,
             checked = args.checked
         )
+        if(args.id != -1) //args.id only will be -1 for new items so the id will autogenerate -> it's the same as passing a null
+            item.id = args.id   //If args.id it's not -1 means you are editing and existing item
+        return item
+    }
+
 
     private fun back() {
         val navController = findNavController()
