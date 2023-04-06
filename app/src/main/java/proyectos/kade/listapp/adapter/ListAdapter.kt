@@ -11,15 +11,15 @@ import proyectos.kade.listapp.ui.ListFragment
 import proyectos.kade.listapp.ui.ListFragmentDirections
 
 
-class ListAdapter(private val itemList: List<Item>) :
+class ListAdapter(var itemList: List<Item>) :
     RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
 
     class ViewHolder(val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val checkBox = binding.checkbox
-        val itemNameET = binding.tvItemName
-        val editBtn = binding.btnEdit
-        val deleteBtn = binding.btnDelete
+        val itemNameTV = binding.tvItemName
+        val editIBTN = binding.ibtnEdit
+        val deleteIBTN = binding.ibtnDelete
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,13 +31,12 @@ class ListAdapter(private val itemList: List<Item>) :
         with(holder) {
             with(itemList[position]) { val item = this //To improve readability
                 //UI components
-                itemNameET.text = item.name
+                itemNameTV.text = item.name
                 checkBox.isChecked = item.checked
 
                 //UI components listeners
-                editBtn.setOnClickListener {
+                editIBTN.setOnClickListener {
                     val action = ListFragmentDirections.actionListFragmentToDetailFragment(
-                        id = item.id,
                         name = item.name,
                         photo = item.photo,
                         description = item.description,
@@ -46,11 +45,12 @@ class ListAdapter(private val itemList: List<Item>) :
                     )
                     binding.root.findNavController().navigate(action)
                 }
-                deleteBtn.setOnClickListener { currentView ->
+                deleteIBTN.setOnClickListener { currentView ->
                     currentView.findFragment<ListFragment>().delete(item)
                 }
-                checkBox.setOnCheckedChangeListener { _, isChecked ->
-                    item.checked = isChecked
+                checkBox.setOnClickListener { currentView ->
+                    item.checked = checkBox.isChecked
+                    currentView.findFragment<ListFragment>().insert(item)
                 }
 
             }

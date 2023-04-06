@@ -35,9 +35,6 @@
             app:argType="string"
             android:defaultValue="Name" />
         <argument
-            android:name="id"
-            app:argType="integer" />
-        <argument
             android:name="checked"
             app:argType="boolean" />
     </fragment>

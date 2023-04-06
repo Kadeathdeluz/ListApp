@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btn_edit"
+            android:id="@+id/ibtn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -55,7 +55,7 @@
             app:tint="@color/blue" />
 
         <ImageButton
-            android:id="@+id/btn_delete"
+            android:id="@+id/ibtn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,15 +14,19 @@ import proyectos.kade.listapp.R
 import proyectos.kade.listapp.adapter.ListAdapter
 import proyectos.kade.listapp.databinding.ListViewBinding
 import proyectos.kade.listapp.model.Item
+import proyectos.kade.listapp.model.data.ItemRoomDatabase
+import proyectos.kade.listapp.repository.ItemRepository
 import proyectos.kade.listapp.viewmodel.ListViewModel
+import proyectos.kade.listapp.viewmodel.ListViewModelFactory
 
 class ListFragment : Fragment() {
-    private val viewModel: ListViewModel by viewModels()
+
+    lateinit var viewModel: ListViewModel
 
     private var _binding: ListViewBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: ListAdapter
+    private lateinit var listAdapter: ListAdapter
     private lateinit var itemList: List<Item>
 
     private lateinit var recyclerView: RecyclerView
@@ -42,57 +46,41 @@ class ListFragment : Fragment() {
         recyclerView = binding.recyclerView
         addFAB = binding.fabAddList
         itemList = listOf<Item>()
-        adapter = ListAdapter(itemList)
+        listAdapter = ListAdapter(itemList)
 
-        //itemList = viewModel.loadList() //First time just get an empty list
-        //viewModel.updateList(itemList)
         with(recyclerView) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            this.adapter = adapter
+            adapter = listAdapter
         }
 
-        val navController = findNavController()
+        val repository: ItemRepository =
+            ItemRepository(ItemRoomDatabase.getDatabase(requireContext()))
+        val factory: ListViewModelFactory = ListViewModelFactory(repository)
 
-        with(navController.currentBackStackEntry?.savedStateHandle) {
-            this?.getLiveData<Int>("id")
-                ?.observe(viewLifecycleOwner) { newID ->
-                    val newItem = Item(
-                        id = newID ?: 0,
-                        name = this["name"] ?: "noName",
-                        description = this["description"] ?: "noDescription",
-                        checked = this["checked"] ?: true,
-                        photo = this["photo"] ?: R.drawable.ic_launcher_foreground
-                    )
-                    //navController.clearBackStack("name")
-                    viewModel.insert(newItem)
-                }
+        viewModel = ViewModelProvider(this,factory)[ListViewModel::class.java]
+
+        viewModel.getAllItems().observe(viewLifecycleOwner) { list ->
+            listAdapter.itemList = list
+            listAdapter.notifyDataSetChanged()
         }
 
         addFAB.setOnClickListener {
-            val newId = (0..10).random()
-            insert(
+            addItem(
                 Item(
-                    id = newId,
                     checked = false,
-                    name = "Name$newId",
-                    description = "Generated item with id: $newId",
+                    name = "Name",
+                    description = "Generated item ",
                     photo = R.drawable.cake
                 )
             )
         }
 
-        viewModel.itemsList.observe(viewLifecycleOwner) { list ->
-            itemList = list
-            binding.recyclerView.adapter = ListAdapter(itemList)
-        }
-
     }
 
-    private fun insert(item: Item) {
+    private fun addItem(item: Item) {
         with(item) {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(
-                id = id,
                 name = name,
                 photo = photo,
                 checked = checked,
@@ -102,6 +90,9 @@ class ListFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
+    fun insert(item: Item) =
+        viewModel.insert(item)
 
     fun delete(item: Item) =
         viewModel.delete(item)

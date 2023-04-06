@@ -6,8 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "item")
 data class Item(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
     @ColumnInfo(name = "name")
     var name: String,
     @ColumnInfo(name = "description")
@@ -16,4 +14,7 @@ data class Item(
     var photo: Int,
     @ColumnInfo(name = "checked")
     var checked: Boolean
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
